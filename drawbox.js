@@ -1,5 +1,6 @@
 /*
-drawbox.js     
+this file controls the drawbox functions (not how it looks!)
+DO NOT EDIT!     
 */
 
 let canvas = document.getElementById("drawboxcanvas");
@@ -94,7 +95,7 @@ function Clear() {
 }
 
 context.drawImage = function() {
-	console.warn("noo >:(");
+	console.warn("no >:(");
 };
 
 document.getElementById("submit").addEventListener("click", async () => {
@@ -125,40 +126,8 @@ document.getElementById("submit").addEventListener("click", async () => {
         // Since you cannot read the response, assume success
         status.textContent = "Upload sent!";
         Clear();
-        loadGallery();  // You can still try to refresh the gallery
     } catch (err) {
         console.error(err);
         status.textContent = "Upload failed (network error)";
     }
 });
-
-async function loadGallery() {
-    const gallery = document.getElementById("gallery");
-
-    // Fetch your JSON normally (no need to reverse/no-cors if public)
-    const response = await fetch(API_URL);
-    const images = await response.json();
-
-    gallery.innerHTML = "";
-
-    images
-        .filter(i => i.type === "drawing")
-        .reverse()
-        .forEach(img => {
-            const div = document.createElement("div");
-
-            // Convert Google Drive ID to direct view link
-            const driveUrl = `https://drive.google.com/uc?export=view&id=${img.content}`;
-
-            div.innerHTML = `
-                <a href="${driveUrl}" target="_blank">
-                    <img src="${driveUrl}" width="300">
-                </a>
-                <p>${new Date(img.timestamp).toLocaleString()}</p>
-            `;
-
-            gallery.appendChild(div);
-        });
-}
-
-loadGallery();
